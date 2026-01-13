@@ -1,1 +1,6 @@
-See the online documentation on www.gotm.net
+Note that for this plume test case two different scenarios are available:
+
+1. A subglacial surface-attached plume (gotm_subglacial.yaml)
+2. A bottom-attached plume (gotm_bottom.yaml))
+
+See further information on the online documentation on www.gotm.net.
