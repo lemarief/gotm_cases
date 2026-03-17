@@ -1,13 +1,11 @@
-Two idealised cases representative of typical convective conditions in the ocean are considered. Convection is triggered by a surface cooling of Q0=−500 W m−2, corresponding to a surface buoyancy loss of B0=-2.5×10−7 m2 s−3. In both cases, salinity is kept uniform at S=32.6 psu.
+Idealised case representative of typical convective conditions in the ocean. Convection is triggered by a surface cooling of Q0=−500 W m−2, corresponding to a surface buoyancy loss of B0=-2.5×10−7 m2 s−3. 
+
+Salinity is kept uniform at S=32.6 psu.
  
 The ocean is initially at rest with a constant stratification ΔΘ=1K/1000m, corresponding to 
 N2=1.962×10−6 s−2
 
-The two cases are:
-
-1- FC500 – Free convection (no wind stress applied).
-
-2- W005_C500 – Uniform wind stress applied in the meridional direction (u*^2=0.05 m2 s−2)
+A uniform wind stress is applied in the meridional direction (u*^2=0.05 m2 s−2)
 
 Each scenario is run for 72 hours, and the final state can be compared with LES data.
 
