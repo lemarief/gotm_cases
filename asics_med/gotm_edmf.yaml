@@ -221,16 +221,16 @@ turbulence:
    MFconvec:
       compute_massflux: true
       massflux_on_dynamics: true
-      massflux_energy: false
+      massflux_energy: true
       mf_ap0: 0.2
       mf_wp0: -0.5e-8
-      mf_Cent: 0.70      # 0.99
+      mf_Cent: 0.70
       mf_Cdet: 1.99
       mf_aa: 1.0
       mf_bb: 1.0
-      mf_bp: 0.125       # 0.75
+      mf_bp: 0.125
       mf_uv: 0.25
-      mf_dbkg: 0.0625    # 1.125
+      mf_dbkg: 0.0625 
 
 mimic_3d:                               # effects of horizontal gradients
    ext_pressure:                        # external pressure
