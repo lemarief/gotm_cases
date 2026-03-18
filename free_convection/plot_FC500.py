@@ -4,6 +4,7 @@
 from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 #
 plt.rcParams['text.usetex'] = True
 
@@ -20,17 +21,16 @@ class convection:
     #==
     #============================================================================
     def get_data_les(self):
-        nc = Dataset(self.config["filename"] , mode='r')
-        self.temp = nc.variables["temp"][:]
-        self.z    = nc.variables["z"][:]
-        self.tke  = nc.variables["tke_res"][:]+nc.variables["tke_sbg"][:]
-        self.wt   = nc.variables["wt_res"][:]+nc.variables["wt_sbg"][:]
-        self.wtke = nc.variables["wtke_res"][:]+nc.variables["wtke_sbg"][:]
-        nc.close()
+        df = pd.read_csv(self.config["filename"], sep="\t") 
+        self.z    = df["z"].values
+        self.tke  = df["tke_res"].values + df["tke_sbg"].values
+        self.temp = df["temp"].values
+        self.wt   = df["wt_res"].values+df["wt_sbg"].values
+        self.wtke = df["wtke_res"].values+df["wtke_sbg"].values
         self.zinv = - self.z[np.argmin(self.wt)]
         if self.config["momentum_diag"]:
-            self.u  = nc.variables["u"][:]
-            self.wu = nc.variables["wu_res"][:]+nc.variables["wu_sbg"][:]
+            self.u  = df["u"].values
+            self.wu = df["wu_res"].values+df["wu_sbg"].values
     #============================================================================
     #==
     #============================================================================
@@ -77,7 +77,7 @@ for i, run_params in enumerate(runs):
    scm[i] = convection(run_params)
    scm[i].get_data_gotm() 
 
-params = {'filename': 'les_data/FC500_LES_t72h.nc', 'momentum_diag': False, 'mass_flux': False}
+params = {'filename': 'les_data/FC500_LES_t72h.dat', 'momentum_diag': False, 'mass_flux': False}
 scm_les = convection(params)
 scm_les.get_data_les()
 
