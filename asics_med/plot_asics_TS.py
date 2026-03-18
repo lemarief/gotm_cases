@@ -28,13 +28,13 @@ class asics_case:
        self.zi     = depthi.mean(dim="time")
 
     def get_data_obs(self):
-       ds = xr.open_dataset(self.config['filename']) 
-       ds = ds.assign_coords(time_counter = pd.to_datetime("2013-01-01") + pd.to_timedelta(ds.time_counter, unit="D"))
-       ds_sel = ds.sel(time_counter=slice("2013-01-15", "2013-02-10")) 
-       self.temp = ds_sel["votemper"]
-       self.salt = ds_sel["vosaline"]
-       self.time = ds_sel["time_counter"] 
-       self.z    = -1. * ds["deptht"].squeeze()
+       df = pd.read_csv(self.config['filename'], sep="\t")
+       df["time"] = pd.to_datetime(df["time"])
+       self.time = df["time"].unique()
+       self.z    = -1. * df["depth"].unique()
+       ds        = df.set_index(["time", "depth"]).to_xarray() 
+       self.temp = ds["temp"] 
+       self.salt = ds["salt"]
 
     def plot_temp(self,ax,tmin,tmax,colorMap,Tlevels):
        pcm  = ax.pcolormesh(self.time, self.z, self.temp.T,shading="auto",cmap=colorMap,vmin=tmin,vmax=tmax)  
@@ -60,7 +60,7 @@ class asics_case:
        ax.set_title(self.title)
        plt.colorbar(pcm, ax=ax, label="m/s")
 
-params = {'filename': 'obs_data/AsicsMed_data.nc','title': 'Observational data'}
+params = {'filename': 'obs_data/AsicsMed_data.dat','title': 'Observational data'}
 scm_obs = asics_case(params)
 scm_obs.get_data_obs()
 
@@ -99,15 +99,15 @@ scm[0].plot_salt(ax[1],smin,smax,colorMapS,Slevels)
 scm[1].plot_salt(ax[2],smin,smax,colorMapS,Slevels)
 scm[2].plot_salt(ax[3],smin,smax,colorMapS,Slevels)
 
-fig, ax = plt.subplots(3, 1, figsize=(12, 7.5), sharex=True)
+#fig, ax = plt.subplots(3, 1, figsize=(12, 7.5), sharex=True)
 #
-vmin = -0.025
-vmax =  0.025
-Vlevels = [-0.2, 0., 0.02]
-colorMapV='RdBu'
-scm[0].plot_yvel(ax[0],vmin,vmax,colorMapV,Vlevels)
-scm[1].plot_yvel(ax[1],vmin,vmax,colorMapV,Vlevels)
-scm[2].plot_yvel(ax[2],vmin,vmax,colorMapV,Vlevels)
+#vmin = -0.025
+#vmax =  0.025
+#Vlevels = [-0.2, 0., 0.02]
+#colorMapV='RdBu'
+#scm[0].plot_yvel(ax[0],vmin,vmax,colorMapV,Vlevels)
+#scm[1].plot_yvel(ax[1],vmin,vmax,colorMapV,Vlevels)
+#scm[2].plot_yvel(ax[2],vmin,vmax,colorMapV,Vlevels)
 
 plt.tight_layout()
 plt.show()
